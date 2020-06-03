@@ -6,9 +6,13 @@ Vue.use(VueRouter)
 const routes = [
 	{
 		path: '/',
-		name: 'Home',
 		component: () => import(/* webpackChunkName: "Portfolio" */ '../views/Layout.vue'),
 		children: [
+			{
+				path: '/',
+				name: 'Home',
+				component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue'),
+			},
 			{
 				path: '/Portfolio',
 				name: 'Portfolio',

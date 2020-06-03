@@ -23,7 +23,7 @@ export default {
 			let canvas = this.canvas = this.$refs['star']
 			this.canvasContext = canvas.getContext('2d')
 			canvas.width = this.width = window.innerWidth
-			canvas.height = this.height = window.innerHeight - 60
+			canvas.height = this.height = window.innerHeight - 70
 		},
 		drawCircle(x, y, radius) {
 			let ctx = this.canvasContext
@@ -48,20 +48,19 @@ export default {
 			this.drawFrame()
 		},
 		drawFrame() {
-			let ctx = this.canvasContext
-			ctx.clearRect(0, 0, this.width, this.height)
+			this.canvasContext.clearRect(0, 0, this.width, this.height)
 			for (let i = 0; i < this.starArray.length; i++) {
 				let star = this.starArray[i]
 
-				if (star.radius > star.maxlength) star.opacity = 1
+				if (star.radius > star.maxlength) star.opacity = -1
 
-				star.opacity === 1 ? star.radius -= (Math.random() * 0.03) : star.radius += (Math.random() * 0.03)
+				star.radius += Math.random() * 0.03 * star.opacity
 
 				if (star.radius < 0) {
 					star.radius = 0
 					star.x = this.width * Math.random()
 					star.y = this.height * Math.random()
-					star.opacity = 0
+					star.opacity = 1
 				}
 
 				this.starArray[i] = star
