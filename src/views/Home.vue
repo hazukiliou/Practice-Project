@@ -18,10 +18,16 @@ export default {
 		return {
 			practiceList: [
 				{
-					link: 'Other',
+					link: 'StarAnimation',
 					name: 'Star Animation',
 					label: 'Canvas',
 					image: 'Star Animation'
+				},
+				{
+					link: 'CarouselsImage',
+					name: 'Image Carousel',
+					label: 'CSS',
+					image: 'Image Carousel'
 				}
 			]
 		}
@@ -42,6 +48,11 @@ export default {
 	justify-content: space-between;
 	margin: 0 auto;
 	width: 90%;
+
+	&::after {
+		content: '';
+		width: 30%;
+	}
 
 	li {
 		overflow: hidden;
@@ -79,7 +90,6 @@ export default {
 			line-height: 25px;
 			padding: 0 15px;
 			border-radius: 20px;
-			width: 50px;
 			color: #7367f0;
 			border: 1px solid #7367f0;
 		}
