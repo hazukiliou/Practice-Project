@@ -1,12 +1,16 @@
 <template>
 	<div class="CarouselsImage">
-		<div class="transform" :style="{'transform': `translateX(-${index * 100}%)`}">
+		<div
+			class="transform"
+			:style="{ transform: `translateX(-${index * 100}%)` }"
+			:class="{ move: show }"
+		>
 			<div
 				class="carousel"
 				:class="[`class${item}`, className(i)]"
 				v-for="(item, i) in list"
 				:key="i"
-				:style="{'transform': `translateX(${i * 100}%)`}"
+				:style="{ transform: `translateX(${i * 100}%)` }"
 			>
 				{{ `Carousel${item}` }}
 			</div>
@@ -21,7 +25,17 @@ export default {
 	data() {
 		return {
 			index: 0,
-			list: ['1', '2', '3', '4']
+			carouselList: ['1', '2', '3'],
+			show: false
+		}
+	},
+	computed: {
+		list() {
+			return [
+				this.carouselList[this.carouselList.length - 1],
+				...this.carouselList,
+				this.carouselList[0]
+			]
 		}
 	},
 	methods: {
@@ -46,10 +60,30 @@ export default {
 		next() {
 			this.index =
 				this.index === this.list.length - 1 ? 0 : this.index + 1
+
+			if (this.index === 0) {
+				this.index++
+				this.show = true
+
+				setTimeout(() => {
+					this.show = false
+					this.index++
+				}, 1)
+			}
 		},
 		prev() {
 			this.index =
 				this.index === 0 ? this.list.length - 1 : this.index - 1
+
+			if (this.index === this.list.length - 1) {
+				this.index--
+				this.show = true
+
+				setTimeout(() => {
+					this.show = false
+					this.index--
+				}, 1)
+			}
 		}
 	}
 }
@@ -59,15 +93,19 @@ export default {
 .CarouselsImage {
 	position: relative;
 	overflow: hidden;
-	width: 600px;
+	width: 100%;
 	height: 400px;
 	margin: auto;
 	font-size: 24px;
-	color: #FFF;
+	color: #fff;
 
 	.transform {
 		height: 100%;
 		transition: transform 500ms ease-in-out;
+
+		&.move {
+			transition: transform 0s;
+		}
 	}
 
 	.carousel {
@@ -78,20 +116,27 @@ export default {
 		align-items: center;
 		justify-content: center;
 		z-index: -1;
+		// opacity: 0;
+		// transition: transform 500ms ease-in-out;
 
 		&.active {
+			opacity: 1;
 			z-index: 1;
 			transform: translateX(0%);
 		}
 
 		&.next {
+			// opacity: 0;
 			z-index: 0;
 			transform: translateX(100%);
+			transition: opacity 0ms 500ms, transform 500ms ease-in-out;
 		}
 
 		&.prev {
+			// opacity: 0;
 			z-index: 0;
 			transform: translateX(-100%);
+			transition: opacity 0ms 500ms, transform 500ms ease-in-out;
 		}
 	}
 
